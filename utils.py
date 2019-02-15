@@ -8,6 +8,7 @@ import random
 import pprint
 import scipy.misc
 import numpy as np
+import cv2
 from time import gmtime, strftime
 from six.moves import xrange
 
@@ -36,7 +37,11 @@ def imread(path, grayscale = False):
   if (grayscale):
     return scipy.misc.imread(path, flatten = True).astype(np.float)
   else:
-    return scipy.misc.imread(path).astype(np.float)
+    # Reference: https://github.com/carpedm20/DCGAN-tensorflow/issues/162#issuecomment-315519747
+    img = cv2.imread(path)
+    (b, g, r)=cv2.split(img)
+    img=cv2.merge([r,g,b])
+    return np.array(img).astype(np.float)
 
 def merge_images(images, size):
   return inverse_transform(images)
