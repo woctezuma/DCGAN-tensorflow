@@ -39,9 +39,8 @@ def imread(path, grayscale = False):
   else:
     # Reference: https://github.com/carpedm20/DCGAN-tensorflow/issues/162#issuecomment-315519747
     img = cv2.imread(path)
-    (b, g, r)=cv2.split(img)
-    img=cv2.merge([r,g,b])
-    return np.array(img).astype(np.float)
+    # Reference: https://stackoverflow.com/a/15074748/
+    return np.array(img[:,:,::-1]).astype(np.float)
 
 def merge_images(images, size):
   return inverse_transform(images)
